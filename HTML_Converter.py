@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup as bs
 # https://wkhtmltopdf.org/usage/wkhtmltopdf.txt
 
 
-class Page():
+class HTML_Converter():
     """
     Takes a URL, retrieves its content, generates a PDF.
     """
