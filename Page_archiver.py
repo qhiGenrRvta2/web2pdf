@@ -1,6 +1,9 @@
+import os
 import re
-import requests
+
 import pdfkit
+import requests
+
 from bs4 import BeautifulSoup as bs
 
 # Useful references re. converting HTML to PDF
@@ -9,9 +12,9 @@ from bs4 import BeautifulSoup as bs
 # https://wkhtmltopdf.org/usage/wkhtmltopdf.txt
 
 
-class HTML_Converter():
+class Page_archiver():
     """
-    Takes a URL, retrieves its content, generates a PDF.
+    Takes a URL, retrieves its content, generates a PDF archive if appropriate.
     """
     # CONSTANTS
     # Options for pdfkit
@@ -36,7 +39,10 @@ class HTML_Converter():
         self.url = url
         self.raw_data = self.retrieve_data()
         self.page_title = self.get_title()
-        self.pdf_data = pdfkit.from_url(self.url, False, options=Page.options)
+        if self.is_binary:
+            self.archive = self.raw_data
+        else:
+            self.archive = pdfkit.from_url(self.url, False, options=Page_archiver.options)
 
     def retrieve_data(self):
         """
@@ -50,22 +56,26 @@ class HTML_Converter():
      
         # Check that we got text.
         if not re.search(r'text', data.headers['content-type']):
-            raise ValueError('Not an HTML file')
+            self.is_binary = True
+            return data.content
 
+        self.is_binary = False
         return data.text
 
     def get_title(self):
         """
         Gets the title of the webpage.
         """
-        soup = bs(self.raw_data, 'html.parser')
-        return soup.find('title').get_text()
-
+        if not self.is_binary:
+            soup = bs(self.raw_data, 'html.parser')
+            return soup.find('title').get_text()
+        
+        return os.path.basename(self.url)
 
 def main():
 
-    test = Page('http://en.wikipedia.org/wiki/Sodium')
-    print(type(test.pdf_data))
+    test = Page_archiver('http://en.wikipedia.org/wiki/Sodium')
+    print(type(test.archive))
 
 
 if __name__ == "__main__":
