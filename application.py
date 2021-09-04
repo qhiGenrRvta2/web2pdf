@@ -18,12 +18,12 @@ def archiver():
     """
     Render a page for getting user input.
     """
-    raise NotImplementedError
+    return flask.render_template('archiver.html') 
 
 
-@app.route("/results")
+@app.route("/results", methods=["POST"])
 def results():
     """
-    Deliver the results.
+    Generate and deliver the results.
     """
     raise NotImplementedError
