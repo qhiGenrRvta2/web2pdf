@@ -2,15 +2,17 @@
 
 <html lang="en">
     <head>
+        <meta charset="utf-8"/>
         <link href="../static/styles.css" rel="stylesheet">
         <title>Web Archiver</title>
     </head>
     <body>
-        <h1> Simple Web Archiver </h1>
+        <h1>Simple Web Archiver</h1>
         <form action="/results" method="post">
-            <input type="text" name="prefix" class="gappy right"> <br>
-                <textarea name="url_box" rows="10" class="centered"> </textarea> <br>
-                <input type="submit" value="Submit" class="centered">
+                <label for="prefix"> File name prefix: </label> 
+                <span><input type="text" name="prefix" class="gappy" value="Cited Reference -"></span>
+            <textarea placeholder="Paste a list of URLs here..." name="url_box" rows="10" class="gappy"></textarea> 
+            <input type="submit" value="Generate" class="centered">
         </form>
     </body>
 </html>
