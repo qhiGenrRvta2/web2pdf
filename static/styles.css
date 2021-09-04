@@ -3,9 +3,9 @@
 https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme */
 @media (prefers-color-scheme: dark){
 		body {color:#fff;background:#000}
-/*		a:link {color:#9cf}
+		a:link {color:#9cf}
 		a:hover, a:visited:hover {color:#cef}
-		a:visited {color:#c9f} */
+		a:visited {color:#c9f} 
 	}
 
 body
@@ -16,7 +16,26 @@ body
 		font:1.2em/1.62 sans-serif;
 }
 
+textarea
+{
+    width: 35em;
+}
+
 .gappy
 {
     margin-bottom: 1.2em;
+}
+
+.centered
+{
+    /*Setting 'display: block' is needed to centre the item*/
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.right
+{
+    display: block;
+    margin-left: auto;
 }
