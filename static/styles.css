@@ -1,4 +1,3 @@
-
 /* Dark mode. 
 https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme */
 @media (prefers-color-scheme: dark){
@@ -18,7 +17,28 @@ body
 
 textarea
 {
-    width: 35em;
+    width: 100%;
+}
+
+label
+{
+    display: table-cell;
+}
+
+input
+{
+    display: table-cell;
+    margin-left: 1.2em;
+}
+
+h1
+{
+    text-align: center;
+}
+
+span
+{
+    display: table-cell;
 }
 
 .gappy
@@ -32,10 +52,4 @@ textarea
     display: block;
     margin-left: auto;
     margin-right: auto;
-}
-
-.right
-{
-    display: block;
-    margin-left: auto;
 }
