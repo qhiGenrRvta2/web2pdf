@@ -26,4 +26,6 @@ def results():
     """
     Generate and deliver the results.
     """
+    print(flask.request.form.get("prefix"))
+    print(flask.request.form.get("url_box"))
     raise NotImplementedError
