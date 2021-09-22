@@ -72,9 +72,25 @@ class Page_archiver():
         
         return os.path.basename(self.url)
 
+    def create_file(self, tmp_directory=None, name_prefix=''):
+        
+        if not self.is_binary:
+            name = name_prefix+self.page_title+'.pdf'
+        else:
+            name = self.page_title
+
+        if tmp_directory:
+            out = os.path.join(tmp_directory, name)
+        else:
+            out = name
+
+        with open(out, "wb") as archive_file:
+            archive_file.write(self.archive)
+
 def main():
 
     test = Page_archiver('http://en.wikipedia.org/wiki/Sodium')
+    test.create_file('tmp', 'Example - ')
     print(type(test.archive))
 
 
