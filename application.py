@@ -1,4 +1,5 @@
 import flask
+import helpers
 
 app = flask.Flask(__name__)
 
@@ -26,6 +27,11 @@ def results():
     """
     Generate and deliver the results.
     """
-    print(flask.request.form.get("prefix"))
-    print(flask.request.form.get("url_box"))
+    # Get the raw data from the HTML form.
+    raw_prefix = flask.request.form.get("prefix")
+    raw_url_list = flask.request.form.get("url_box")
+    
+    # TODO: clean up url list.
+    urls = helpers.generate_url_list(raw_url_list)
+    print(urls)
     raise NotImplementedError
