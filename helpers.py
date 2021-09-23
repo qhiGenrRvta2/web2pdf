@@ -1,10 +1,33 @@
+import os
+import random
 import re
+import string
+
+def generate_key(size):
+    """
+    Generates a random secret key.
+    """
+    return ''.join(random.choice(string.ascii_letters) for x in range(size))
 
 def add_protocol(chunk):
+    """
+    Adds http:// to the start of a URL if missing.
+    """
     if chunk.startswith("http"):
         return chunk
     else:
         return r"http://" + chunk
+
+def create_dir_for_session(session_uuid):
+    """
+    Creates a directory with a random name based on a UUID.
+    """
+    name = f"session_{session_uuid.fields[0]}"
+    
+    if not os.path.isdir(name):
+        os.mkdir(name)
+
+    return name
 
 def generate_url_list(raw_text):
     """
