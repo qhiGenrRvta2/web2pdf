@@ -53,3 +53,8 @@ span
     margin-left: auto;
     margin-right: auto;
 }
+
+.centered_text
+{
+    text-align:center;
+}
