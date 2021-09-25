@@ -18,7 +18,7 @@ def add_protocol(chunk):
     else:
         return r"http://" + chunk
 
-def create_dir_for_session(session_uuid):
+def get_dir_for_session(session_uuid):
     """
     Creates a directory with a random name based on a UUID.
     """
