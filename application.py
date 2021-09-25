@@ -1,7 +1,10 @@
+import os
 import uuid
+
 import flask
+
 import helpers
-import Page_archiver
+import Page_archiver as p
 
 
 # https://cs50.harvard.edu/college/2020/fall/notes/9/
@@ -30,7 +33,8 @@ def archiver():
     
     # Create a unique session ID.  Store it in flask.session (which works like a dict).
     # https://pythonbasics.org/flask-sessions/
-    flask.session['uuid'] = uuid.uuid4()
+    if 'uuid' not in flask.session:
+        flask.session['uuid'] = uuid.uuid4()
     
     return flask.render_template('archiver.html') 
 
@@ -53,11 +57,23 @@ def results():
         # Get list of usable URLs.
         urls = helpers.generate_url_list(raw_url_list)
 
-        if urls:
-            destination = helpers.create_dir_for_session(flask.session['uuid'])
-            # TODO: generate a PDF of each, and offer for download.
-            print(urls)
-            print(destination)
-            print(f"At line 58: {flask.session['uuid']=}")
+        # Stop if nothing to do.
+        if not urls:
+            return flask.render_template('no_results.html')
+            
+        # Create session folder, and a list for storing results.
+        session_folder = helpers.create_dir_for_session(flask.session['uuid'])
         
-        raise NotImplementedError
+        # Generate an archive of each URL in the folder.
+        # TODO: handle connection problems / bad URLs. 
+        for url in urls:
+            archive = p.Page_archiver(url)
+            archive.create_file(session_folder, raw_prefix)
+        
+        # Identify outputs
+        outputs = os.listdir(session_folder)
+        if not outputs:
+            return flask.render_template('no_results.html')
+        
+        # Provide links to the archived files
+        return flask.render_template('results.html', file_list=outputs)
