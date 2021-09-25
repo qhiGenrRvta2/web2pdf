@@ -1,13 +1,11 @@
-<!DOCTYPE html>
+{% extends "layout.html" %}
 
-<html lang="en">
-    <head>
-        <meta charset="utf-8"/>
-        <link href="../static/styles.css" rel="stylesheet"/>
-        <title>Web Archiver</title>
-    </head>
-    <body>
-        <h1>Simple Web Archiver</h1>
+{% block title %}
+<title>Web Archiver</title>
+{% endblock %}
+
+{% block body %} 
+    <h1>Simple Web Archiver</h1>
         <form action="/results" method="post" name="input_form">
                 <label>File name prefix: </label> 
                 <span><input type="text" name="prefix" class="gappy" value="Cited Reference -"></span>
@@ -21,5 +19,4 @@
             button.setAttribute('disabled', true);
         }
     </script>
-    </body>
-</html>
+{% endblock %}
