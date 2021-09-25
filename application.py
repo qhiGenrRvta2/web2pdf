@@ -62,7 +62,7 @@ def results():
             return flask.render_template('no_results.html')
             
         # Create session folder, and a list for storing results.
-        session_folder = helpers.create_dir_for_session(flask.session['uuid'])
+        session_folder = helpers.get_dir_for_session(flask.session['uuid'])
         
         # Generate an archive of each URL in the folder.
         # TODO: handle connection problems / bad URLs. 
@@ -72,8 +72,19 @@ def results():
         
         # Identify outputs
         outputs = os.listdir(session_folder)
+
         if not outputs:
             return flask.render_template('no_results.html')
-        
+       
         # Provide links to the archived files
+        # TODO: can't link to arbitrary files! Need to implement download route.
         return flask.render_template('results.html', file_list=outputs)
+
+@app.route("/download/<filename>")
+def download(filename):
+    # https://tedboy.github.io/flask/generated/flask.send_from_directory.html
+    session_folder = helpers.get_dir_for_session(flask.session['uuid'])
+    try:
+        return flask.send_from_directory(session_folder, filename, as_attachment=True)
+    except FileNotFoundError:
+        flask.abort(404)
