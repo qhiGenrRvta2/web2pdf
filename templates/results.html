@@ -6,4 +6,8 @@
 
 {% block body %}
     <h1>Results</h1>
+    {% for result in file_list %}
+        <a href="download/{{ result }}">{{ result }}</a>
+    {% endfor %}
+
 {% endblock %}
