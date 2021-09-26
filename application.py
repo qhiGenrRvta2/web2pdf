@@ -17,6 +17,7 @@ app.config["SESSION_TYPE"] = "filesystem"
 # https://www.code-learner.com/how-to-use-session-and-cookie-in-python-flask-framework/
 app.config['SECRET_KEY'] = helpers.generate_key(8)
 
+
 @app.route("/")
 def index():
     """
@@ -65,26 +66,48 @@ def results():
         session_folder = helpers.get_dir_for_session(flask.session['uuid'])
         
         # Generate an archive of each URL in the folder.
-        # TODO: handle connection problems / bad URLs. 
-        for url in urls:
-            archive = p.Page_archiver(url)
-            archive.create_file(session_folder, raw_prefix)
+        # Identify any URLs which can't be archived. 
+        bad_urls = []
         
+        for url in urls:
+            try:
+                archive = p.Page_archiver(url)
+                archive.create_file(session_folder, raw_prefix)
+            except Exception as e:
+                bad_urls.append(url)
+                print(repr(e))
+
         # Identify outputs
         outputs = os.listdir(session_folder)
 
-        if not outputs:
+        if not outputs and not bad_urls:
             return flask.render_template('no_results.html')
        
         # Provide links to the archived files
-        # TODO: can't link to arbitrary files! Need to implement download route.
-        return flask.render_template('results.html', file_list=outputs)
+        return flask.render_template('results.html', file_list=outputs, failures=bad_urls)
+
 
 @app.route("/download/<filename>")
 def download(filename):
+    """
+    Offer archived pages for download.
+    """
     # https://tedboy.github.io/flask/generated/flask.send_from_directory.html
     session_folder = helpers.get_dir_for_session(flask.session['uuid'])
     try:
         return flask.send_from_directory(session_folder, filename, as_attachment=True)
     except FileNotFoundError:
         flask.abort(404)
+
+
+@app.route("/make_zip")
+def make_zip():
+    """
+    Create and send zip file containing all archived pages.
+    """
+    zip_folder = 'zips' 
+    session_folder = helpers.get_dir_for_session(flask.session['uuid'])
+    
+    zip_file = helpers.make_zip(session_folder, zip_folder)
+    
+    return flask.send_from_directory(zip_folder, zip_file, as_attachment=True)
