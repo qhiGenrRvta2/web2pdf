@@ -10,8 +10,9 @@
                 <label>File name prefix: </label> 
                 <span><input type="text" name="prefix" class="gappy" value="Cited Reference - "></span>
             <textarea placeholder="Paste a list of URLs here..." name="url_box" rows="10" class="gappy"></textarea> 
-            <input id="submit_button" type="submit" value="Generate" class="centered"><div id="spinner"></div>
+            <input id="submit_button" type="submit" value="Generate" class="centered">
         </form>
+        <div id="spinner"></div>
         <script>
         let form = document.querySelector('[name="input_form"]');
         let button = document.querySelector('#submit_button');
