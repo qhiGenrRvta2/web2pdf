@@ -80,12 +80,15 @@ class Page_archiver():
             name = self.page_title
 
         if tmp_directory:
-            out = os.path.join(tmp_directory, name)
+            output_name = os.path.join(tmp_directory, name)
         else:
-            out = name
+            output_name = name
 
-        with open(out, "wb") as archive_file:
+        with open(output_name, "wb") as archive_file:
             archive_file.write(self.archive)
+        
+        return output_name
+
 
 def main():
 
