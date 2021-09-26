@@ -5,7 +5,9 @@
     <script>
         function createZip() {
             let button = document.querySelector('#zip_button');
+            let spinner = document.querySelector('#spinner');
             button.setAttribute('disabled', true);
+            spinner.setAttribute('class', 'loader');
             window.location.href='/make_zip';
         }
     </script>
@@ -14,17 +16,18 @@
 {% block body %}
     <h1>Results</h1>
     {% if file_list %}
-        Download links for archived files:
+        Download links for archived pages:
         <ul>
         {% for result in file_list %}
             <li><a href="download/{{ result }}">{{ result }}</a></li>
         {% endfor %}
         </ul>
         <button id="zip_button" type="button" class="centered" onclick="createZip()">Download All</button>
+        <div id="spinner"></div>
     {% endif %}
 
     {% if failures %}
-        The following pages could not be archived: </br>
+        The following pages could not be archived:
         <ul>
         {% for failure in failures %}
             <li><a href="{{ failure }}">{{ failure }}</a></li>
@@ -35,4 +38,3 @@
     <div class="centered_text"><a href="/archiver">Go back</a></div>
 
 {% endblock %}
-
