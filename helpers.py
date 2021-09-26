@@ -48,7 +48,7 @@ def generate_url_list(raw_text):
     return urls
 
 
-def make_zip(input_folder, output_folder=zips):
+def make_zip(input_folder, output_folder="zips"):
     """
     Creates a zipped version of folder
     https://docs.python.org/3/library/zipfile.html
@@ -57,9 +57,10 @@ def make_zip(input_folder, output_folder=zips):
     if not os.path.isdir(output_folder):
         os.mkdir(output_folder)
 
-    files = os.listdir(input_folder)
+    # Paths to files
+    files = [os.path.join(input_folder, entry) for entry in os.listdir(input_folder)]
     
-    name = f"bundle_{folder}.zip"
+    name = f"{input_folder}_bundle.zip"
     destination_file = os.path.join(output_folder, name)
 
     with zipfile.ZipFile(destination_file, "a") as output:
